@@ -1,7 +1,10 @@
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 //Stream map(Function mapper) returns a stream consisting of the results of applying the given function to the elements of this stream.
 //
@@ -29,5 +32,29 @@ public class StreamMap {
 			.map(s -> s.toUpperCase())
 			.collect(Collectors.toList());
 		System.out.println(uppercase);
+				
+		
+		//flatmap
+		var stream = Stream.of(List.of(1,2,3), List.of(4,5,6));
+		
+		stream
+			.forEach(l -> System.out.println(l));
+		
+		stream
+			.flatMap(l -> l.stream())
+			.forEach(v -> System.out.println(v));
+		
+		// stream has already been operated upon or closed -> this exception
+		// overcome exception by using get, it's return same stream.
+		
+		Supplier<Stream<String>> streamSupplier 
+		  = () -> Stream.of("A", "B", "C", "D");
+		  
+		Optional<String> result1 = streamSupplier.get().findAny();
+		System.out.println(result1.get());
+		
+		Optional<String> result2 = streamSupplier.get().findFirst();
+		System.out.println(result2.get());
+		
 	}
 }
